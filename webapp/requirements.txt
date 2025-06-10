@@ -1,1 +1,38 @@
+# =====================================================
+# DEPENDENCIAS PARA BD-REPORTING-DEMO
+# Ferretería Petapa - Dashboard BI
+# =====================================================
 
+# Framework principal
+streamlit>=1.28.0
+
+# Manipulación de datos
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualización
+plotly>=5.15.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Machine Learning básico
+scikit-learn>=1.3.0
+
+# Base de datos (PostgreSQL)
+psycopg2-binary>=2.9.0
+sqlalchemy>=2.0.0
+
+# Utilidades
+python-dateutil>=2.8.0
+pytz>=2023.3
+
+# Desarrollo y testing
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Opcional: para despliegue en Heroku
+gunicorn>=21.0.0
+
+# Opcional: para conectar con APIs externas
+requests>=2.31.0
