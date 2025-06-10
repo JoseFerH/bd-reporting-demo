@@ -1,1 +1,270 @@
+# =====================================================
+# PROCFILE - Configuración de procesos para Heroku
+# =====================================================
 
+web: streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
+
+# =====================================================
+# RUNTIME.TXT - Versión de Python para Heroku
+# =====================================================
+
+python-3.11.5
+
+# =====================================================
+# APP.JSON - Configuración de aplicación Heroku
+# =====================================================
+
+{
+  "name": "Ferreteria Petapa Dashboard BI",
+  "description": "Sistema de Business Intelligence para control de inventarios",
+  "repository": "https://github.com/tu-usuario/bd-reporting-demo",
+  "logo": "https://via.placeholder.com/200x200.png?text=BI",
+  "keywords": ["streamlit", "postgresql", "business-intelligence", "inventory"],
+  "image": "heroku/python",
+  "stack": "heroku-20",
+  "addons": [
+    {
+      "plan": "heroku-postgresql:mini",
+      "as": "DATABASE"
+    }
+  ],
+  "env": {
+    "STREAMLIT_SERVER_PORT": {
+      "description": "Puerto para Streamlit",
+      "value": "8501"
+    },
+    "STREAMLIT_SERVER_ADDRESS": {
+      "description": "Dirección del servidor",
+      "value": "0.0.0.0"
+    },
+    "DEBUG_MODE": {
+      "description": "Modo debug",
+      "value": "false"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
+
+# =====================================================
+# HEROKU.YML - Configuración Docker para Heroku
+# =====================================================
+
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
+
+# =====================================================
+# DOCKERFILE - Contenedor Docker
+# =====================================================
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar archivos de dependencias
+COPY requirements.txt .
+
+# Instalar dependencias de Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar código de la aplicación
+COPY . .
+
+# Crear directorio para datos
+RUN mkdir -p data backups
+
+# Exponer puerto
+EXPOSE $PORT
+
+# Configurar Streamlit
+ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
+ENV STREAMLIT_SERVER_PORT=$PORT
+ENV STREAMLIT_SERVER_HEADLESS=true
+ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+
+# Comando por defecto
+CMD streamlit run app.py --server.port=$PORT --server.address=0.0.0.0
+
+# =====================================================
+# .SLUGIGNORE - Archivos a ignorar en el deploy
+# =====================================================
+
+*.pyc
+__pycache__/
+.git/
+.gitignore
+README.md
+.env.example
+.pytest_cache/
+tests/
+docs/
+*.log
+.DS_Store
+Thumbs.db
+
+# Archivos grandes que no son necesarios en producción
+backups/
+*.sql
+*.dump
+
+# =====================================================
+# RELEASE.SH - Script de despliegue automático
+# =====================================================
+
+#!/bin/bash
+
+echo "🚀 Iniciando proceso de release..."
+
+# Configurar base de datos
+echo "📊 Configurando base de datos..."
+python database_config.py --setup
+
+# Ejecutar migraciones si existen
+if [ -f "migrations.sql" ]; then
+    echo "🔄 Ejecutando migraciones..."
+    psql $DATABASE_URL -f migrations.sql
+fi
+
+# Cargar datos iniciales
+echo "📥 Cargando datos iniciales..."
+python -c "
+import os
+from database_config import DatabaseManager
+
+if os.getenv('LOAD_SAMPLE_DATA', 'true').lower() == 'true':
+    db = DatabaseManager()
+    if db.connect():
+        db.create_tables()
+        db.load_csv_data()
+        print('✅ Datos cargados exitosamente')
+        db.disconnect()
+"
+
+echo "✅ Release completado exitosamente!"
+
+# =====================================================
+# GITHUB_ACTIONS.YML - CI/CD con GitHub Actions
+# =====================================================
+
+name: Deploy to Heroku
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest
+    
+    - name: Set up database
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_NAME: postgres
+        DB_USER: postgres
+        DB_PASSWORD: postgres
+      run: |
+        python database_config.py --test
+    
+    - name: Run tests
+      run: |
+        pytest tests/ -v
+    
+    - name: Lint with flake8
+      run: |
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to Heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "ferreteria-petapa-bi"
+        heroku_email: "jhurtarte1@gmail.com"
+        buildpack: "heroku/python"
+
+# =====================================================
+# CONFIG_VARS.SH - Script para configurar variables Heroku
+# =====================================================
+
+#!/bin/bash
+
+APP_NAME="ferreteria-petapa-bi"
+
+echo "⚙️ Configurando variables de entorno en Heroku..."
+
+# Variables de configuración de Streamlit
+heroku config:set STREAMLIT_SERVER_ADDRESS=0.0.0.0 -a $APP_NAME
+heroku config:set STREAMLIT_SERVER_HEADLESS=true -a $APP_NAME
+heroku config:set STREAMLIT_BROWSER_GATHER_USAGE_STATS=false -a $APP_NAME
+
+# Variables de aplicación
+heroku config:set DEBUG_MODE=false -a $APP_NAME
+heroku config:set LOAD_SAMPLE_DATA=true -a $APP_NAME
+
+# Variables de base de datos (DATABASE_URL se configura automáticamente)
+echo "📊 DATABASE_URL configurado automáticamente por Heroku Postgres"
+
+# Variables de seguridad
+heroku config:set SECRET_KEY=$(openssl rand -base64 32) -a $APP_NAME
+
+echo "✅ Variables configuradas exitosamente!"
+
+# Mostrar configuración actual
+echo "📋 Configuración actual:"
+heroku config -a $APP_NAME
