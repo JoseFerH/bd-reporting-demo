@@ -1,0 +1,9 @@
+categoria_id,nombre_categoria,descripcion,margen_promedio,activo,fecha_creacion
+1,Herramientas Manuales,"Martillos, alicates, destornilladores",0.35,TRUE,2023-01-15
+2,Herramientas Eléctricas,"Taladros, sierras, pulidoras",0.25,TRUE,2023-01-15
+3,Tornillería y Fijaciones,"Tornillos, tuercas, clavos",0.40,TRUE,2023-01-15
+4,Materiales Eléctricos,"Cables, interruptores, tomacorrientes",0.30,TRUE,2023-02-01
+5,Plomería,"Tubos, conexiones, llaves",0.32,TRUE,2023-02-01
+6,Pinturas y Acabados,"Pinturas, brochas, thinner",0.28,TRUE,2023-02-15
+7,Seguridad Industrial,"Cascos, guantes, lentes",0.45,TRUE,2023-03-01
+8,Iluminación,"Linternas, focos, reflectores",0.35,TRUE,2023-03-01
