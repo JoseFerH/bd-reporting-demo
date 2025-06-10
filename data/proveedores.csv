@@ -1,0 +1,9 @@
+proveedor_id,nombre_proveedor,contacto,telefono,email,direccion,ciudad,pais,tiempo_entrega_dias,calificacion,activo,fecha_registro
+1,Ferremax Guatemala,Carlos Méndez,2234-5678,ventas@ferremax.gt,"Zone 9, 4ta Calle 7-50",Guatemala,Guatemala,3,4.5,TRUE,2023-01-10
+2,Distribuidora Central,Ana López,2345-6789,pedidos@distcentral.com,"Zone 1, 18 Calle 5-56",Guatemala,Guatemala,5,4.2,TRUE,2023-01-10
+3,Importadora del Norte,Roberto Silva,2456-7890,info@impnorte.gt,"Zone 3, 1ra Avenida 12-45",Quetzaltenango,Guatemala,7,4.0,TRUE,2023-02-01
+4,Makita Guatemala,Luis Castillo,2567-8901,distribuidor@makita.gt,"Zone 10, Diagonal 6 13-01",Guatemala,Guatemala,4,4.8,TRUE,2023-02-01
+5,Black & Decker CA,María González,2678-9012,ventas@bd-ca.com,"Zone 11, 7ma Avenida 15-25",Guatemala,Guatemala,6,4.3,TRUE,2023-02-15
+6,Pinturas Suprema,Jorge Morales,2789-0123,comercial@suprema.gt,"Zone 6, 20 Calle 28-17",Mixco,Guatemala,2,4.4,TRUE,2023-03-01
+7,Tubomax Industrial,Patricia Ruiz,2890-1234,ventas@tubomax.com,"Zone 4, 12 Avenida 8-90",Villa Nueva,Guatemala,4,4.1,TRUE,2023-03-01
+8,Seguridad Total S.A.,Miguel Torres,2901-2345,info@segtotal.gt,"Zone 12, 6ta Calle 21-05",Guatemala,Guatemala,5,4.6,TRUE,2023-03-15
