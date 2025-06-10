@@ -1,0 +1,26 @@
+movimiento_id,producto_id,tipo_movimiento,cantidad,costo_unitario,precio_venta,motivo,usuario,fecha_movimiento,stock_anterior,stock_nuevo,documento_referencia
+1,1,ENTRADA,50,33.33,45.20,Compra inicial,jose.hurtarte,2024-11-15,0,50,ORD-001
+2,1,SALIDA,8,33.33,45.20,Venta mostrador,cajero1,2024-11-16,50,42,VTA-001
+3,2,ENTRADA,80,48.15,65.45,Compra mensual,jose.hurtarte,2024-11-20,0,80,ORD-002
+4,2,SALIDA,13,48.15,65.45,Venta cliente mayorista,vendedor1,2024-11-22,80,67,VTA-002
+5,3,ENTRADA,30,62.96,85.50,Reposición stock,jose.hurtarte,2024-11-25,5,35,ORD-003
+6,3,SALIDA,12,62.96,85.50,Venta construcción,vendedor2,2024-11-26,35,23,VTA-003
+7,11,ENTRADA,15,360.00,450.90,Compra herramientas,jose.hurtarte,2024-11-02,0,15,ORD-004
+8,11,SALIDA,7,360.00,450.90,Venta contratista,vendedor1,2024-11-05,15,8,VTA-004
+9,21,ENTRADA,200,0.61,0.85,Compra tornillería,jose.hurtarte,2024-11-10,50,250,ORD-005
+10,21,SALIDA,94,0.61,0.85,Venta ferretería,cajero2,2024-11-12,250,156,VTA-005
+11,51,ENTRADA,50,140.63,180.20,Compra pinturas,jose.hurtarte,2024-11-01,10,60,ORD-006
+12,51,SALIDA,37,140.63,180.20,Venta pintor,vendedor1,2024-11-03,60,23,VTA-006
+13,61,ENTRADA,20,58.62,85.13,Compra seguridad,jose.hurtarte,2024-11-15,2,22,ORD-007
+14,61,SALIDA,10,58.62,85.13,Venta empresa construcción,vendedor2,2024-11-18,22,12,VTA-007
+15,74,ENTRADA,60,18.52,25.18,Compra iluminación,jose.hurtarte,2024-11-20,0,60,ORD-008
+16,74,SALIDA,15,18.52,25.18,Venta electricista,cajero1,2024-11-22,60,45,VTA-008
+17,23,AJUSTE,-5,3.00,4.19,Ajuste por inventario físico,supervisor.almacen,2024-11-28,50,45,AJU-001
+18,40,MERMA,2,3.16,4.52,Producto dañado,supervisor.almacen,2024-11-30,91,89,MER-001
+19,59,SALIDA,8,66.41,85.10,Venta pintor industrial,vendedor1,2024-12-01,30,22,VTA-009
+20,77,ENTRADA,15,122.22,166.04,Compra reflectores,jose.hurtarte,2024-12-05,5,20,ORD-009
+21,77,SALIDA,8,122.22,166.04,Venta municipalidad,vendedor2,2024-12-07,20,12,VTA-010
+22,12,SALIDA,3,520.00,651.30,Venta taller mecánico,vendedor1,2024-12-08,15,12,VTA-011
+23,70,ENTRADA,10,196.55,285.17,Compra calzado seguridad,jose.hurtarte,2024-12-02,3,13,ORD-010
+24,70,SALIDA,5,196.55,285.17,Venta empresa minera,vendedor2,2024-12-04,13,8,VTA-012
+25,26,SALIDA,50,0.36,0.50,Venta ferretería mayorista,cajero2,2024-12-06,237,187,VTA-013
