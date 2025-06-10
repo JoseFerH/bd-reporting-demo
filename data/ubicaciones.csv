@@ -1,0 +1,9 @@
+ubicacion_id,seccion,pasillo,estante,nivel,capacidad_maxima,descripcion
+1,A,1,A,1,50,Herramientas manuales básicas
+2,A,1,A,2,50,Herramientas manuales especializadas
+3,A,2,B,1,75,Herramientas eléctricas pequeñas
+4,B,1,A,1,100,Herramientas eléctricas grandes
+5,B,2,B,1,60,Tornillería y fijaciones
+6,C,1,A,1,80,Materiales eléctricos
+7,C,2,C,1,40,Plomería y accesorios
+8,D,1,A,1,90,Pinturas y seguridad industrial
